@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class YonaApplication {
+public class NailsApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(YonaApplication.class, args);
+	static void main(String[] args) {
+		SpringApplication.run(NailsApplication.class, args);
 	}
 
 }
