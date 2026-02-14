@@ -6,7 +6,7 @@ spring:
     driver-class-name: org.postgresql.Driver
 
   liquibase:
-    change-log: classpath:db/changelog.yaml
+    change-log: classpath:db/iterations.yaml
     contexts: ${spring.profiles.active}
 
   output:
