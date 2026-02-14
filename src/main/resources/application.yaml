@@ -9,5 +9,9 @@ spring:
     change-log: classpath:db/changelog.yaml
     contexts: ${spring.profiles.active}
 
+  output:
+    ansi:
+      enabled: ALWAYS
+
 server:
   port: 8080
