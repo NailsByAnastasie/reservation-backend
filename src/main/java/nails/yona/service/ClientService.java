@@ -1,0 +1,36 @@
+package nails.yona.service;
+
+import lombok.RequiredArgsConstructor;
+import nails.yona.dto.request.ClientRequest;
+import nails.yona.dto.response.ClientResponse;
+import nails.yona.mapper.ClientMapper;
+import nails.yona.model.Client;
+import nails.yona.repository.ClientRepository;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
+@Service
+@RequiredArgsConstructor
+public class ClientService {
+
+    private final ClientRepository clientRepository;
+    private final ClientMapper clientMapper;
+
+    @Transactional(readOnly = true)
+    public List<ClientResponse> getAllClients() {
+        List<Client> clients = clientRepository.findAll();
+        return clientMapper.toResponseList(clients);
+    }
+
+    @Transactional
+    public ClientResponse createClient(ClientRequest request) {
+        if (clientRepository.existsByEmail(request.email())) {
+            throw new IllegalArgumentException("Un client avec l'email " + request.email() + " existe déjà.");
+        }
+        Client clientToSave = clientMapper.toEntity(request);
+        Client savedClient = clientRepository.save(clientToSave);
+        return clientMapper.toResponse(savedClient);
+    }
+}

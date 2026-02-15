@@ -32,4 +32,16 @@ public class GlobalExceptionHandler {
                 errors
         );
     }
+
+    @ResponseStatus(HttpStatus.CONFLICT)
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ApiErrorDto handleIllegalArgumentException(IllegalArgumentException ex) {
+        return new ApiErrorDto(
+                LocalDateTime.now(),
+                HttpStatus.CONFLICT.value(),
+                "Conflict",
+                ex.getMessage(),
+                null
+        );
+    }
 }

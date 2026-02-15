@@ -5,7 +5,7 @@ import nails.yona.enums.ContactType;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-public record ClientResponseDto(
+public record ClientResponse(
         UUID id,
         String fullName,
         String email,
