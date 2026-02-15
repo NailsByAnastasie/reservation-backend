@@ -1,4 +1,4 @@
-package nails.yona.dto;
+package nails.yona.dto.request;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
@@ -7,7 +7,7 @@ import nails.yona.enums.MeetStatus;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-public record MeetDto(
+public record MeetRequest(
         @NotNull(message = "Le client est obligatoire pour créer un rendez-vous.")
         UUID clientId,
 

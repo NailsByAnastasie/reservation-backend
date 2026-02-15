@@ -1,11 +1,11 @@
-package nails.yona.dto;
+package nails.yona.dto.request;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import nails.yona.enums.ContactType;
 
-public record ClientDto(
+public record ClientRequest(
         @NotBlank(message = "Le nom complet est obligatoire.")
         String fullName,
 

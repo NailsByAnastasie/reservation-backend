@@ -1,11 +1,11 @@
-package nails.yona.dto;
+package nails.yona.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
 
-public record BlockedSlotDto(
+public record BlockedSlotRequest(
         @NotNull(message = "La date de début du blocage est obligatoire.")
         LocalDateTime dateStart,
 

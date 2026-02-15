@@ -1,11 +1,11 @@
-package nails.yona.dto;
+package nails.yona.dto.request;
 
 import jakarta.validation.constraints.NotNull;
 import nails.yona.enums.WorkingDay;
 
 import java.time.LocalTime;
 
-public record WorkingHourDto(
+public record WorkingHourRequest(
         @NotNull(message = "Le jour de la semaine est obligatoire.")
         WorkingDay day,
 

@@ -1,10 +1,10 @@
-package nails.yona.dto;
+package nails.yona.dto.request;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
-public record PrestationDto(
+public record PrestationRequest(
         @NotBlank(message = "Le nom de la prestation est obligatoire.")
         String name,
 
