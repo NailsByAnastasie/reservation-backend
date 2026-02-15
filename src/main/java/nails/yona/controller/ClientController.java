@@ -26,10 +26,10 @@ public class ClientController {
         return clientService.getAllClients();
     }
 
-    @Operation(operationId = "getAllClients")
+    @Operation(operationId = "createClient")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ClientResponse createClient(@Valid @RequestBody ClientRequest request) {
-        return clientService.createClient(request);
+        return clientService.getOrCreateClient(request);
     }
 }

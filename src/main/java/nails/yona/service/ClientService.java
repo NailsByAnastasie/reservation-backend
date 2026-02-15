@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -25,12 +26,16 @@ public class ClientService {
     }
 
     @Transactional
-    public ClientResponse createClient(ClientRequest request) {
-        if (clientRepository.existsByEmail(request.email())) {
-            throw new IllegalArgumentException("Un client avec l'email " + request.email() + " existe déjà.");
+    public ClientResponse getOrCreateClient(ClientRequest request) {
+
+        Optional<Client> existingClient = clientRepository.findByEmailIgnoreCase(request.email());
+
+        if (existingClient.isPresent()) {
+            return clientMapper.toResponse(existingClient.get());
         }
-        Client clientToSave = clientMapper.toEntity(request);
-        Client savedClient = clientRepository.save(clientToSave);
+
+        Client newClient = clientMapper.toEntity(request);
+        Client savedClient = clientRepository.save(newClient);
         return clientMapper.toResponse(savedClient);
     }
 }
