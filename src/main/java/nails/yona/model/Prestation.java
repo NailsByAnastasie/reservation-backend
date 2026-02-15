@@ -24,24 +24,24 @@ public class Prestation {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @NotBlank(message = "Le nom de la prestation est obligatoire")
+    @NotBlank
     @Column(nullable = false)
     private String name;
 
-    @NotNull(message = "Le prix est obligatoire")
-    @Min(value = 0, message = "Le prix ne peut pas être négatif")
+    @NotNull
+    @Min(value = 0)
     @Column(nullable = false)
     private Integer price;
 
-    @NotNull(message = "La durée est obligatoire")
-    @Min(value = 1, message = "La durée doit être d'au moins 1 minute")
+    @NotNull
+    @Min(value = 1)
     @Column(nullable = false)
     private Integer time;
 
     @Column(columnDefinition = "TEXT")
     private String description;
 
-    @NotNull(message = "Le statut de la prestation est obligatoire")
+    @NotNull
     @Column(nullable = false)
     private Boolean active;
 

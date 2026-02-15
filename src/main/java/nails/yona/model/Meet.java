@@ -24,17 +24,17 @@ public class Meet {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @NotNull(message = "Le client est obligatoire")
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "client_id", nullable = false)
     private Client client;
 
-    @NotNull(message = "La prestation est obligatoire")
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "prestation_id", nullable = false)
     private Prestation prestation;
 
-    @NotNull(message = "Le statut est obligatoire")
+    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private MeetStatus status;
@@ -42,16 +42,16 @@ public class Meet {
     @Column(columnDefinition = "TEXT")
     private String note;
 
-    @NotNull(message = "La date de début est obligatoire")
+    @NotNull
     @Column(nullable = false)
     private LocalDateTime dateStart;
 
-    @NotNull(message = "La date de fin est obligatoire")
+    @NotNull
     @Column(nullable = false)
     private LocalDateTime dateEnd;
 
-    @NotNull(message = "Le prix final est obligatoire")
-    @Min(value = 0, message = "Le prix ne peut pas être négatif")
+    @NotNull
+    @Min(value = 0)
     @Column(nullable = false)
     private Integer finalPrice;
 

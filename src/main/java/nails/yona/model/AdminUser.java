@@ -23,12 +23,12 @@ public class AdminUser {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @NotBlank(message = "L'email est obligatoire")
-    @Email(message = "Format d'email invalide")
+    @NotBlank
+    @Email
     @Column(nullable = false, unique = true)
     private String email;
 
-    @NotBlank(message = "Le mot de passe est obligatoire")
+    @NotBlank
     @Column(nullable = false)
     private String passwordHash;
 

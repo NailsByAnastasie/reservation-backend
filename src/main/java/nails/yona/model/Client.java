@@ -24,21 +24,21 @@ public class Client {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @NotBlank(message = "Le nom complet est obligatoire")
+    @NotBlank
     @Column(nullable = false)
     private String fullName;
 
-    @NotBlank(message = "L'email est obligatoire")
-    @Email(message = "Le format de l'email est invalide")
+    @NotBlank
+    @Email
     @Column(nullable = false, unique = true)
     private String email;
 
-    @NotNull(message = "Le type de contact est obligatoire")
+    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private ContactType contactType;
 
-    @NotBlank(message = "Le contact est obligatoire")
+    @NotBlank
     @Column(nullable = false)
     private String contactValue;
 

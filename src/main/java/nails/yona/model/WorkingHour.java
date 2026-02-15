@@ -24,15 +24,15 @@ public class WorkingHour {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @NotNull(message = "Le jour est obligatoire")
-    @Enumerated(EnumType.STRING)
+    @NotNull
+    @Enumerated(EnumType.STRING) // TODO explain
     @Column(nullable = false)
     private WorkingDay day;
 
     private LocalTime startTime;
     private LocalTime endTime;
 
-    @NotNull(message = "L'état d'ouverture est obligatoire")
+    @NotNull
     @Column(nullable = false)
     private Boolean isClosed;
 
