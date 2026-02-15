@@ -25,7 +25,7 @@ public class WorkingHour {
     private UUID id;
 
     @NotNull
-    @Enumerated(EnumType.STRING) // TODO explain
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private WorkingDay day;
 
