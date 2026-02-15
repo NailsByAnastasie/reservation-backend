@@ -1,5 +1,6 @@
 package nails.yona.exception;
 
+import jakarta.persistence.EntityNotFoundException;
 import nails.yona.dto.ApiErrorDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
@@ -40,6 +41,18 @@ public class GlobalExceptionHandler {
                 LocalDateTime.now(),
                 HttpStatus.CONFLICT.value(),
                 "Conflict",
+                ex.getMessage(),
+                null
+        );
+    }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ApiErrorDto handleEntityNotFoundException(EntityNotFoundException ex) {
+        return new ApiErrorDto(
+                LocalDateTime.now(),
+                HttpStatus.NOT_FOUND.value(),
+                "Ressource introuvable",
                 ex.getMessage(),
                 null
         );

@@ -1,41 +1,24 @@
 package nails.yona.service;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import nails.yona.dto.request.ClientRequest;
-import nails.yona.dto.response.ClientResponse;
-import nails.yona.mapper.ClientMapper;
 import nails.yona.model.Client;
 import nails.yona.repository.ClientRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class ClientService {
 
     private final ClientRepository clientRepository;
-    private final ClientMapper clientMapper;
 
     @Transactional(readOnly = true)
-    public List<ClientResponse> getAllClients() {
-        List<Client> clients = clientRepository.findAll();
-        return clientMapper.toResponseList(clients);
-    }
-
-    @Transactional
-    public ClientResponse getOrCreateClient(ClientRequest request) {
-
-        Optional<Client> existingClient = clientRepository.findByEmailIgnoreCase(request.email());
-
-        if (existingClient.isPresent()) {
-            return clientMapper.toResponse(existingClient.get());
-        }
-
-        Client newClient = clientMapper.toEntity(request);
-        Client savedClient = clientRepository.save(newClient);
-        return clientMapper.toResponse(savedClient);
+    public UUID findIdByEmail(String email) {
+        return clientRepository.findByEmailIgnoreCase(email)
+                .map(Client::getId)
+                .orElseThrow(() -> new EntityNotFoundException("Client introuvable avec l'email : " + email));
     }
 }
