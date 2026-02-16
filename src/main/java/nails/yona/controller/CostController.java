@@ -9,8 +9,9 @@ import nails.yona.dto.response.CostResponse;
 import nails.yona.service.CostService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
-import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -23,10 +24,9 @@ public class CostController {
 
     @Operation(operationId = "getAllCosts")
     @GetMapping
-    public List<CostResponse> getAllCosts() {
-        return costService.getAllCosts();
+    public Page<CostResponse> getAllCosts(Pageable pageable) {
+        return costService.getAllCosts(pageable);
     }
-
     @Operation(operationId = "createCost")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)

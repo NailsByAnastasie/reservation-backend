@@ -9,6 +9,7 @@ import nails.yona.mapper.MeetMapper;
 import nails.yona.model.Client;
 import nails.yona.model.Meet;
 import nails.yona.model.Prestation;
+import nails.yona.repository.BlockedSlotRepository;
 import nails.yona.repository.ClientRepository;
 import nails.yona.repository.MeetRepository;
 import nails.yona.repository.PrestationRepository;
@@ -26,6 +27,7 @@ public class MeetService {
     private final ClientRepository clientRepository;
     private final PrestationRepository prestationRepository;
     private final MeetMapper meetMapper;
+    private final BlockedSlotRepository blockedSlotRepository;
 
     @Transactional(readOnly = true)
     public List<MeetResponse> getAllMeets() {
@@ -36,10 +38,18 @@ public class MeetService {
     public MeetResponse createMeet(MeetRequest request) {
 
         Client client = clientRepository.findById(request.clientId())
-                .orElseThrow(() -> new EntityNotFoundException("Cliente introuvable" + request.clientId()));
+                .orElseThrow(() -> new EntityNotFoundException("Cliente introuvable."));
 
         Prestation prestation = prestationRepository.findById(request.prestationId())
-                .orElseThrow(() -> new EntityNotFoundException("Prestation introuvable" + request.prestationId()));
+                .orElseThrow(() -> new EntityNotFoundException("Prestation introuvable."));
+
+        if (meetRepository.hasOverlap(request.dateStart(), request.dateEnd())) {
+            throw new IllegalArgumentException("Ce créneau est déjà réservé par une autre cliente.");
+        }
+
+        if (blockedSlotRepository.hasOverlap(request.dateStart(), request.dateEnd())) {
+             throw new IllegalArgumentException("Le salon est indisponible à ces dates.");
+         }
 
         Meet meet = meetMapper.toEntity(request);
 

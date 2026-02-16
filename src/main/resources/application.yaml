@@ -1,21 +1,20 @@
 spring:
   application:
     name: nails
-
   datasource:
     driver-class-name: org.postgresql.Driver
     url: ${DB_URL}
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
-
   output:
     ansi:
       enabled: ALWAYS
-
   jpa:
     open-in-view: false
     hibernate:
       ddl-auto: update
+  jackson:
+    time-zone: Europe/Paris
 
 server:
   port: 8080
