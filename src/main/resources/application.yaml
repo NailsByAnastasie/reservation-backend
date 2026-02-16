@@ -4,6 +4,9 @@ spring:
 
   datasource:
     driver-class-name: org.postgresql.Driver
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
 
   output:
     ansi:
@@ -24,3 +27,7 @@ app:
   jwt:
     secret: ${JWT_SECRET}
     expiration: ${JWT_EXPIRATION}
+
+logging:
+  level:
+    root: INFO
