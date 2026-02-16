@@ -15,11 +15,24 @@ spring:
       ddl-auto: update
   jackson:
     time-zone: Europe/Paris
+  mail:
+    host: ${EMAIL_HOST}
+    port: 2525
+    username: ${EMAIL_LOGIN}
+    password: ${EMAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 
 server:
   port: 8080
 
 app:
+  frontend:
+    url: ${FRONTEND_URL}
   admin:
     default:
       email: ${DEFAULT_EMAIL}

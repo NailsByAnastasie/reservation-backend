@@ -29,6 +29,7 @@ public class MeetService {
     private final PrestationRepository prestationRepository;
     private final MeetMapper meetMapper;
     private final BlockedSlotRepository blockedSlotRepository;
+    private final EmailService emailService;
 
     @Transactional(readOnly = true)
     public Page<MeetResponse> getAllMeets(Pageable pageable) {
@@ -58,15 +59,22 @@ public class MeetService {
         meet.setPrestation(prestation);
 
         Meet savedMeet = meetRepository.save(meet);
+
+        emailService.sendMeetConfirmation(savedMeet);
+
         return meetMapper.toResponse(savedMeet);
     }
 
     @Transactional
     public void deleteMeet(UUID id) {
-        if (!meetRepository.existsById(id)) {
-            throw new EntityNotFoundException("Rendez-vous introuvable.");
+        Meet meet = meetRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Rendez-vous introuvable."));
+
+        if (meet.getStatus() != MeetStatus.CANCELED) {
+            throw new IllegalArgumentException("Impossible de supprimer un rendez-vous qui n'est pas annulé.");
         }
-        meetRepository.deleteById(id);
+
+        meetRepository.delete(meet);
     }
 
     @Transactional
@@ -81,6 +89,11 @@ public class MeetService {
 
         meet.setStatus(MeetStatus.CANCELED);
 
-        return meetMapper.toResponse(meetRepository.save(meet));
+        Meet savedMeet = meetRepository.save(meet);
+
+        emailService.sendMeetCancellationToClient(savedMeet);
+        emailService.sendMeetCancellationToAdmin(savedMeet);
+
+        return meetMapper.toResponse(savedMeet);
     }
 }
