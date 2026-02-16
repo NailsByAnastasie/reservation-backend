@@ -5,6 +5,7 @@ import nails.yona.config.security.JwtAuthenticationFilter;
 import nails.yona.repository.AdminUserRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -31,11 +32,19 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/prestations/**").permitAll() // TODO vérifier les endpoints public et private
-                        .requestMatchers("/api/working-hours/**").permitAll()
-                        .requestMatchers("/api/meets/**").permitAll()
-                        .requestMatchers("/api/clients/**").permitAll()
+
+                        .requestMatchers(HttpMethod.GET, "/api/prestations/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/working-hours/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/blocked-slots/**").permitAll()
+
+                        .requestMatchers(HttpMethod.POST, "/api/meets").permitAll()
+                        .requestMatchers(HttpMethod.PATCH, "/api/meets/*/cancel").permitAll()
+
+                        .requestMatchers(HttpMethod.GET, "/api/clients/search").permitAll()
+
+                        .requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
                         .requestMatchers("/v3/api-docs/**").permitAll()
+
                         .anyRequest().authenticated()
                 );
 
