@@ -6,6 +6,7 @@ import nails.yona.dto.response.AdminUserResponse;
 import nails.yona.mapper.AdminUserMapper;
 import nails.yona.model.AdminUser;
 import nails.yona.repository.AdminUserRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,6 +18,7 @@ public class AdminUserService {
 
     private final AdminUserRepository adminUserRepository;
     private final AdminUserMapper adminUserMapper;
+    private final PasswordEncoder passwordEncoder;
 
     @Transactional(readOnly = true)
     public List<AdminUserResponse> getAllAdmins() {
@@ -32,9 +34,7 @@ public class AdminUserService {
 
         AdminUser admin = adminUserMapper.toEntity(request);
 
-        // TODO: Remplacer par passwordEncoder.encode(request.password()) avec Spring Security
-        String fakeHashedPassword = "HASHED_" + request.password() + "_SALT";
-        admin.setPasswordHash(fakeHashedPassword);
+        admin.setPasswordHash(passwordEncoder.encode(request.password()));
 
         AdminUser savedAdmin = adminUserRepository.save(admin);
         return adminUserMapper.toResponse(savedAdmin);
