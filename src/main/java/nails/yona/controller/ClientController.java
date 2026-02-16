@@ -2,8 +2,12 @@ package nails.yona.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import nails.yona.dto.request.ClientRequest;
+import nails.yona.dto.response.ClientResponse;
 import nails.yona.service.ClientService;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -16,11 +20,24 @@ public class ClientController {
 
     private final ClientService clientService;
 
-    @Operation(operationId = "getClientIdByEmail")
+    @Operation(operationId = "getClientByEmail")
     @GetMapping("/search")
-    public UUID getClientIdByEmail(@RequestParam String email) {
-        return clientService.findIdByEmail(email);
+    public ClientResponse getClientByEmail(@RequestParam String email) {
+        return clientService.findByEmail(email);
     }
 
-    // get clients update clients ? TODO
+    @Operation(operationId = "createClient")
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public ClientResponse createClient(@Valid @RequestBody ClientRequest request) {
+        return clientService.createClient(request);
+    }
+
+    @Operation(operationId = "updateClient")
+    @PutMapping("/{id}")
+    public ClientResponse updateClient(
+            @PathVariable UUID id,
+            @Valid @RequestBody ClientRequest request) {
+        return clientService.updateClient(id, request);
+    }
 }

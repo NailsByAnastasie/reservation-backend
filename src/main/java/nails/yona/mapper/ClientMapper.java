@@ -12,5 +12,6 @@ public interface ClientMapper extends GenericMapper<Client, ClientRequest, Clien
     @Override
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "updatedAt", ignore = true)
     Client toEntity(ClientRequest request);
 }

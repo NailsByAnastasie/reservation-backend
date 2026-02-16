@@ -11,5 +11,6 @@ public record ClientResponse(
         String email,
         ContactType contactType,
         String contactValue,
-        LocalDateTime createdAt
+        LocalDateTime createdAt,
+        LocalDateTime updatedAt
 ){}

@@ -24,7 +24,6 @@ public class PrestationService {
         return prestationMapper.toResponseList(prestationRepository.findAll());
     }
 
-    // TODO move to admin controller
     @Transactional
     public PrestationResponse createPrestation(PrestationRequest request) {
         Prestation prestationToSave = prestationMapper.toEntity(request);
@@ -33,7 +32,6 @@ public class PrestationService {
         return prestationMapper.toResponse(savedPrestation);
     }
 
-    // TODO move to admin controller
     @Transactional
     public PrestationResponse updatePrestation(UUID id, PrestationRequest request) {
         Prestation prestation = prestationRepository.findById(id)
@@ -44,7 +42,6 @@ public class PrestationService {
         return prestationMapper.toResponse(prestationRepository.save(prestation));
     }
 
-    // TODO move to admin controller
     @Transactional
     public void deletePrestation(UUID id) {
         if (!prestationRepository.existsById(id)) {
