@@ -9,11 +9,11 @@ import nails.yona.dto.response.AdminUserResponse;
 import nails.yona.mapper.AdminUserMapper;
 import nails.yona.model.AdminUser;
 import nails.yona.repository.AdminUserRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -24,8 +24,8 @@ public class AdminUserService {
     private final PasswordEncoder passwordEncoder;
 
     @Transactional(readOnly = true)
-    public List<AdminUserResponse> getAllAdmins() {
-        return adminUserMapper.toResponseList(adminUserRepository.findAll());
+    public Page<AdminUserResponse> getAllAdmins(Pageable pageable) {
+        return adminUserRepository.findAll(pageable).map(adminUserMapper::toResponse);
     }
 
     @Transactional

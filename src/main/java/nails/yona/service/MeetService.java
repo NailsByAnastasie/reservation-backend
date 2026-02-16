@@ -13,10 +13,11 @@ import nails.yona.repository.BlockedSlotRepository;
 import nails.yona.repository.ClientRepository;
 import nails.yona.repository.MeetRepository;
 import nails.yona.repository.PrestationRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -30,8 +31,8 @@ public class MeetService {
     private final BlockedSlotRepository blockedSlotRepository;
 
     @Transactional(readOnly = true)
-    public List<MeetResponse> getAllMeets() {
-        return meetMapper.toResponseList(meetRepository.findAll());
+    public Page<MeetResponse> getAllMeets(Pageable pageable) {
+        return meetRepository.findAll(pageable).map(meetMapper::toResponse);
     }
 
     @Transactional

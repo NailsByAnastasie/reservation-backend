@@ -21,4 +21,6 @@ public class ClientController {
     public UUID getClientIdByEmail(@RequestParam String email) {
         return clientService.findIdByEmail(email);
     }
+
+    // get clients update clients ? TODO
 }

@@ -8,11 +8,12 @@ import nails.yona.dto.request.EmailUpdateRequest;
 import nails.yona.dto.request.PasswordUpdateRequest;
 import nails.yona.dto.response.AdminUserResponse;
 import nails.yona.service.AdminUserService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/admins")
@@ -24,8 +25,8 @@ public class AdminUserController {
 
     @Operation(operationId = "getAllAdmins")
     @GetMapping
-    public List<AdminUserResponse> getAllAdmins() {
-        return adminUserService.getAllAdmins();
+    public Page<AdminUserResponse> getAllAdmins(Pageable pageable) {
+        return adminUserService.getAllAdmins(pageable);
     }
 
     @Operation(operationId = "updatePassword")

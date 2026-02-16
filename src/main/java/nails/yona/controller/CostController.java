@@ -27,6 +27,7 @@ public class CostController {
     public Page<CostResponse> getAllCosts(Pageable pageable) {
         return costService.getAllCosts(pageable);
     }
+
     @Operation(operationId = "createCost")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
