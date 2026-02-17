@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import nails.yona.dto.request.LoginRequest;
 import nails.yona.dto.response.TokenResponse;
 import nails.yona.service.AuthService;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -18,7 +19,7 @@ public class AuthController {
     private final AuthService authService;
 
     @Operation(operationId = "login")
-    @PostMapping("/login")
+    @PostMapping(value = "/login", produces = MediaType.APPLICATION_JSON_VALUE)
     public TokenResponse login(@Valid @RequestBody LoginRequest request) {
         return authService.login(request);
     }
