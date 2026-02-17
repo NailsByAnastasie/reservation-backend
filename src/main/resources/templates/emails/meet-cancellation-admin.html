@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Alerte : Rendez-vous annulé</title>
+</head>
+<body style="background-color: #f7f7f7; padding: 40px 20px; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #333333; line-height: 1.6; margin: 0;">
+
+<div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; padding: 30px 40px; border-radius: 8px; border: 1px solid #eaeaea; border-top: 5px solid #ff4757;">
+
+    <h2 style="color: #333333; margin-top: 0; border-bottom: 1px solid #f0f0f0; padding-bottom: 15px;">
+        ⚠️ Rendez-vous annulé
+    </h2>
+
+    <p style="font-size: 16px;">Hello Yona,</p>
+    <p style="font-size: 16px;">La cliente <b th:text="${clientName}">Nom de la cliente</b> vient d'annuler son rendez-vous.</p>
+
+    <div style="background-color: #fafafa; padding: 15px 20px; border-radius: 5px; margin: 25px 0;">
+        <p style="margin: 5px 0; font-size: 15px;"><b>Date :</b> Le <span th:text="${meetDate}">01/01/2026</span> à <span th:text="${meetTime}">14:00</span></p>
+        <p style="margin: 5px 0; font-size: 15px;"><b>Prestation :</b> <span th:text="${prestationName}">Prestation</span></p>
+        <p style="margin: 5px 0; font-size: 15px;"><b>Contact :</b> <span th:text="${contactType}">Type</span> : <span th:text="${contactValue}">Valeur</span></p>
+    </div>
+
+    <p style="font-size: 16px; color: #27ae60; font-weight: bold; text-align: center; margin-top: 30px;">
+        ✅ Ce créneau est de nouveau libre dans ton calendrier !
+    </p>
+
+</div>
+
+</body>
+</html>
