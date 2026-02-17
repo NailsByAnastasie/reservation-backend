@@ -35,7 +35,7 @@ public class EmailService {
         try {
             Context context = new Context();
             context.setVariable("clientName", meet.getClient().getFullName());
-            context.setVariable("prestationName", meet.getPrestation().getName());
+            context.setVariable("prestationTitle", meet.getPrestation().getName());
             context.setVariable("meetDate", meet.getDateStart().format(dateFormatter));
             context.setVariable("meetTime", meet.getDateStart().format(timeFormatter));
             context.setVariable("cancelLink", frontendUrl + "/cancel-meet?id=" + meet.getId());
