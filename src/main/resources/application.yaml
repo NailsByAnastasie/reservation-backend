@@ -48,3 +48,5 @@ logging:
 springdoc:
   swagger-ui:
     enabled: false
+  api-docs:
+    enabled: true
