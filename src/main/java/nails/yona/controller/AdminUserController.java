@@ -11,6 +11,7 @@ import nails.yona.service.AdminUserService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -27,6 +28,14 @@ public class AdminUserController {
     @GetMapping
     public Page<AdminUserResponse> getAllAdmins(Pageable pageable) {
         return adminUserService.getAllAdmins(pageable);
+    }
+
+    @Operation(operationId = "getUserByEmail")
+    @GetMapping(value = "/me", produces = MediaType.APPLICATION_JSON_VALUE)
+    public AdminUserResponse getUserByEmail(
+            Principal principal
+    ) {
+        return adminUserService.getUserByEmail(principal.getName());
     }
 
     @Operation(operationId = "updatePassword")

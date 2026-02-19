@@ -28,6 +28,11 @@ public class AdminUserService {
         return adminUserRepository.findAll(pageable).map(adminUserMapper::toResponse);
     }
 
+    @Transactional(readOnly = true)
+    public AdminUserResponse getUserByEmail(String email) {
+        return adminUserRepository.findByEmailIgnoreCase(email).map(adminUserMapper::toResponse).orElse(null);
+    }
+
     @Transactional
     public AdminUserResponse createAdmin(AdminUserRequest request) {
 
