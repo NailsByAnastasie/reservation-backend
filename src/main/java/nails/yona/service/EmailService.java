@@ -26,6 +26,7 @@ public class EmailService {
 
     @Value("${app.admin.default.email}")
     private String adminEmail;
+    // TODO prendre l'email actuel de la PO
 
     private final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     private final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");

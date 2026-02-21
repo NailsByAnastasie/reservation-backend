@@ -1,8 +1,11 @@
 package nails.yona.exception;
 
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.persistence.EntityNotFoundException;
 import nails.yona.dto.ApiErrorDto;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -18,6 +21,7 @@ public class GlobalExceptionHandler {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ApiResponse(content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE))
     public ApiErrorDto handleValidationExceptions(MethodArgumentNotValidException ex) {
 
         Map<String, String> errors = new HashMap<>();
@@ -36,6 +40,7 @@ public class GlobalExceptionHandler {
 
     @ResponseStatus(HttpStatus.CONFLICT)
     @ExceptionHandler(IllegalArgumentException.class)
+    @ApiResponse(content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE))
     public ApiErrorDto handleIllegalArgumentException(IllegalArgumentException ex) {
         return new ApiErrorDto(
                 LocalDateTime.now(),
@@ -48,6 +53,7 @@ public class GlobalExceptionHandler {
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(EntityNotFoundException.class)
+    @ApiResponse(content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE))
     public ApiErrorDto handleEntityNotFoundException(EntityNotFoundException ex) {
         return new ApiErrorDto(
                 LocalDateTime.now(),

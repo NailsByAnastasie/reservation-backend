@@ -39,7 +39,7 @@ public class AdminUserController {
     }
 
     @Operation(operationId = "updatePassword")
-    @PutMapping("/me/password")
+    @PutMapping(value = "/me/password", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updatePassword(
             Principal principal,
