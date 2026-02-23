@@ -7,6 +7,7 @@ import nails.yona.dto.response.ClientResponse;
 import nails.yona.mapper.ClientMapper;
 import nails.yona.model.Client;
 import nails.yona.repository.ClientRepository;
+import nails.yona.repository.MeetRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +19,7 @@ public class ClientService {
 
     private final ClientRepository clientRepository;
     private final ClientMapper clientMapper;
+    private final MeetRepository meetRepository;
 
     @Transactional(readOnly = true)
     public ClientResponse findByEmail(String email) {
@@ -49,4 +51,14 @@ public class ClientService {
         return clientMapper.toResponse(clientRepository.save(client));
     }
 
+    @Transactional
+    public void deleteClient(UUID id) {
+        if (!clientRepository.existsById(id)) {
+            throw new IllegalArgumentException("Client introuvable.");
+        }
+
+        meetRepository.unlinkClient(id);
+
+        clientRepository.deleteById(id);
+    }
 }

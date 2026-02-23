@@ -40,4 +40,11 @@ public class ClientController {
             @Valid @RequestBody ClientRequest request) {
         return clientService.updateClient(id, request);
     }
+
+    @Operation(operationId = "deleteClient")
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteClient(@PathVariable UUID id) {
+        clientService.deleteClient(id);
+    }
 }

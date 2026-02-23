@@ -18,4 +18,8 @@ public interface MeetRepository extends JpaRepository<Meet, UUID> {
     @Modifying
     @Query("UPDATE Meet m SET m.prestation = null WHERE m.prestation.id = :prestationId")
     void unlinkPrestation(@Param("prestationId") UUID prestationId);
+
+    @Modifying
+    @Query("UPDATE Meet m SET m.client = null WHERE m.client.id = :clientId")
+    void unlinkClient(@Param("clientId") UUID clientId);
 }
