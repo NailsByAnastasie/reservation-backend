@@ -5,6 +5,7 @@ import nails.yona.dto.request.PrestationRequest;
 import nails.yona.dto.response.PrestationResponse;
 import nails.yona.mapper.PrestationMapper;
 import nails.yona.model.Prestation;
+import nails.yona.repository.MeetRepository;
 import nails.yona.repository.PrestationRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +19,7 @@ public class PrestationService {
 
     private final PrestationRepository prestationRepository;
     private final PrestationMapper prestationMapper;
+    private final MeetRepository meetRepository;
 
     @Transactional(readOnly = true)
     public List<PrestationResponse> getAllPrestations() {
@@ -47,6 +49,9 @@ public class PrestationService {
         if (!prestationRepository.existsById(id)) {
             throw new IllegalArgumentException("Impossible de supprimer : Prestation introuvable.");
         }
+
+        meetRepository.unlinkPrestation(id);
+
         prestationRepository.deleteById(id);
     }
 }

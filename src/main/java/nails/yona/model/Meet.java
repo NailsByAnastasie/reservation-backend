@@ -1,7 +1,9 @@
 package nails.yona.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import nails.yona.enums.MeetStatus;
@@ -24,14 +26,12 @@ public class Meet {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "client_id", nullable = false)
+    @JoinColumn(name = "client_id")
     private Client client;
 
-    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "prestation_id", nullable = false)
+    @JoinColumn(name = "prestation_id")
     private Prestation prestation;
 
     @NotNull
@@ -54,6 +54,11 @@ public class Meet {
     @Min(value = 0)
     @Column(nullable = false)
     private Integer finalPrice;
+
+    @NotBlank
+    @Email
+    @Column(nullable = false)
+    private String finalEmail;
 
     @CreationTimestamp
     @Column(nullable = false, updatable = false)

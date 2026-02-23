@@ -1,6 +1,7 @@
 package nails.yona.dto.request;
 
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import nails.yona.enums.MeetStatus;
 
@@ -27,5 +28,8 @@ public record MeetRequest(
 
         @NotNull(message = "Le prix final est obligatoire.")
         @Min(value = 0, message = "Le prix final ne peut pas être négatif.")
-        Integer finalPrice
+        Integer finalPrice,
+
+        @NotBlank(message = "L'email ne doit pas être vide")
+        String finalEmail
 ) {}

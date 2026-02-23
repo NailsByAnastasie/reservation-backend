@@ -14,6 +14,7 @@ public record MeetResponse(
         LocalDateTime dateStart,
         LocalDateTime dateEnd,
         Integer finalPrice,
+        String finalEmail,
         LocalDateTime createdAt,
         LocalDateTime updatedAt
 ) {}
