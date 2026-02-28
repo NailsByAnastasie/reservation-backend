@@ -17,7 +17,7 @@ spring:
     time-zone: Europe/Paris
   mail:
     host: ${EMAIL_HOST}
-    port: 2525
+    port: {EMAIL_PORT}
     username: ${EMAIL_LOGIN}
     password: ${EMAIL_PASSWORD}
     properties:
