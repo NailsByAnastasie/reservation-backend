@@ -15,9 +15,6 @@ public record MeetRequest(
         @NotNull(message = "La prestation est obligatoire pour créer un rendez-vous.")
         UUID prestationId,
 
-        @NotNull(message = "Le statut du rendez-vous est obligatoire.")
-        MeetStatus status,
-
         String note,
 
         @NotNull(message = "La date et l'heure de début sont obligatoires.")

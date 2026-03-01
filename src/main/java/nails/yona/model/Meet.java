@@ -34,10 +34,11 @@ public class Meet {
     @JoinColumn(name = "prestation_id")
     private Prestation prestation;
 
+    @Builder.Default
     @NotNull
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private MeetStatus status;
+    private MeetStatus status = MeetStatus.PENDING;
 
     @Column(columnDefinition = "TEXT")
     private String note;
