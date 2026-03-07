@@ -50,6 +50,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/meets").permitAll()
                         .requestMatchers(HttpMethod.PATCH, "/api/meets/*/cancel").permitAll()
 
+                        .requestMatchers(HttpMethod.GET, "/api/availability/**").permitAll()
+
                         .requestMatchers(HttpMethod.GET, "/api/clients/search").permitAll()
 
                         .requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()

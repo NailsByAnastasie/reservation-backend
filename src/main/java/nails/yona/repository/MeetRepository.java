@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Repository
@@ -22,4 +23,7 @@ public interface MeetRepository extends JpaRepository<Meet, UUID> {
     @Modifying
     @Query("UPDATE Meet m SET m.client = null WHERE m.client.id = :clientId")
     void unlinkClient(@Param("clientId") UUID clientId);
+
+    @Query("SELECT m FROM Meet m WHERE m.status != 'CANCELED' AND m.dateStart >= :start AND m.dateStart <= :end ORDER BY m.dateStart ASC")
+    List<Meet> findMeetsBetween(@Param("start") LocalDateTime start, @Param("end") LocalDateTime end);
 }

@@ -5,20 +5,23 @@ import lombok.RequiredArgsConstructor;
 import nails.yona.dto.request.MeetRequest;
 import nails.yona.dto.response.MeetResponse;
 import nails.yona.enums.MeetStatus;
+import nails.yona.enums.WorkingDay;
 import nails.yona.mapper.MeetMapper;
 import nails.yona.model.Client;
 import nails.yona.model.Meet;
 import nails.yona.model.Prestation;
-import nails.yona.repository.BlockedSlotRepository;
-import nails.yona.repository.ClientRepository;
-import nails.yona.repository.MeetRepository;
-import nails.yona.repository.PrestationRepository;
+import nails.yona.model.WorkingHour;
+import nails.yona.repository.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -30,10 +33,22 @@ public class MeetService {
     private final MeetMapper meetMapper;
     private final BlockedSlotRepository blockedSlotRepository;
     private final EmailService emailService;
+    private final WorkingHourRepository workingHourRepository;
 
     @Transactional(readOnly = true)
     public Page<MeetResponse> getAllMeets(Pageable pageable) {
         return meetRepository.findAll(pageable).map(meetMapper::toResponse);
+    }
+
+    @Transactional(readOnly = true)
+    public List<MeetResponse> getUpcomingMeets() {
+        LocalDateTime start = LocalDate.now().atStartOfDay();
+        LocalDateTime end = LocalDate.now().plusMonths(2).atTime(23, 59, 59);
+
+        return meetRepository.findMeetsBetween(start, end)
+                .stream()
+                .map(meetMapper::toResponse)
+                .collect(Collectors.toList());
     }
 
     @Transactional
@@ -44,6 +59,16 @@ public class MeetService {
 
         Prestation prestation = prestationRepository.findById(request.prestationId())
                 .orElseThrow(() -> new EntityNotFoundException("Prestation introuvable."));
+
+        WorkingDay requestDay = WorkingDay.fromJavaDayOfWeek(request.dateStart().getDayOfWeek());
+        WorkingHour workingHour = workingHourRepository.findByDay(requestDay)
+                .orElseThrow(() -> new IllegalArgumentException("Jour non configuré."));
+
+        if (workingHour.getIsClosed() ||
+                request.dateStart().toLocalTime().isBefore(workingHour.getStartTime()) ||
+                request.dateEnd().toLocalTime().isAfter(workingHour.getEndTime())) {
+            throw new IllegalArgumentException("Le salon est fermé sur ce créneau horaire.");
+        }
 
         if (meetRepository.hasOverlap(request.dateStart(), request.dateEnd())) {
             throw new IllegalArgumentException("Ce créneau est déjà réservé par une autre cliente.");

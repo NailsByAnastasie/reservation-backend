@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -46,5 +47,11 @@ public class MeetController {
     @PatchMapping("/{id}/cancel")
     public MeetResponse cancelMeet(@PathVariable UUID id) {
         return meetService.cancelMeet(id);
+    }
+
+    @Operation(operationId = "getUpcomingMeets")
+    @GetMapping("/upcoming")
+    public List<MeetResponse> getUpcomingMeets() {
+        return meetService.getUpcomingMeets();
     }
 }
