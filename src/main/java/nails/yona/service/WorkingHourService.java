@@ -26,7 +26,7 @@ public class WorkingHourService {
     }
 
     @Transactional
-    public WorkingHourResponse upsertWorkingHour(WorkingDay day, WorkingHourRequest request) {
+    public WorkingHourResponse upsertWorkingHour(WorkingHourRequest request) {
 
         if (!request.isClosed() && (request.startTime() == null || request.endTime() == null)) {
             throw new IllegalArgumentException("Si le salon est ouvert, les heures de début et de fin sont obligatoires.");
@@ -36,7 +36,7 @@ public class WorkingHourService {
             throw new IllegalArgumentException("L'heure de début doit être avant l'heure de fin.");
         }
 
-        Optional<WorkingHour> existing = workingHourRepository.findByDay(day);
+        Optional<WorkingHour> existing = workingHourRepository.findByDay(request.day());
         WorkingHour workingHour;
 
         if (existing.isPresent()) {
@@ -46,7 +46,7 @@ public class WorkingHourService {
             workingHour = workingHourMapper.toEntity(request);
         }
 
-        workingHour.setDay(day);
+        workingHour.setDay(request.day());
 
         WorkingHour saved = workingHourRepository.save(workingHour);
         return workingHourMapper.toResponse(saved);

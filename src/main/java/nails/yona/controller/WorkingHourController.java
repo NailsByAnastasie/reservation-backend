@@ -27,10 +27,9 @@ public class WorkingHourController {
     }
 
     @Operation(operationId = "upsertWorkingHour")
-    @PutMapping("/{day}")
+    @PutMapping("/updateOrCreate")
     public WorkingHourResponse upsertWorkingHour(
-            @PathVariable WorkingDay day,
             @Valid @RequestBody WorkingHourRequest request) {
-        return workingHourService.upsertWorkingHour(day, request);
+        return workingHourService.upsertWorkingHour(request);
     }
 }
