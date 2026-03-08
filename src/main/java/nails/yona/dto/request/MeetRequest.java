@@ -20,9 +20,6 @@ public record MeetRequest(
         @NotNull(message = "La date et l'heure de début sont obligatoires.")
         LocalDateTime dateStart,
 
-        @NotNull(message = "La date et l'heure de fin sont obligatoires.")
-        LocalDateTime dateEnd,
-
         @NotNull(message = "Le prix final est obligatoire.")
         @Min(value = 0, message = "Le prix final ne peut pas être négatif.")
         Integer finalPrice,

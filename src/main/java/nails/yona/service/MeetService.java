@@ -54,11 +54,26 @@ public class MeetService {
     @Transactional
     public MeetResponse createMeet(MeetRequest request) {
 
+        LocalDateTime now = LocalDateTime.now();
+        if (request.dateStart().isBefore(now)) {
+            throw new IllegalArgumentException("Impossible de prendre un rendez-vous dans le passé.");
+        }
+        if (request.dateStart().isAfter(now.plusMonths(2).withHour(23).withMinute(59))) {
+            throw new IllegalArgumentException("Les réservations ne sont ouvertes que pour les 2 prochains mois.");
+        }
+
+        int minute = request.dateStart().getMinute();
+        if (minute != 0 && minute != 30) {
+            throw new IllegalArgumentException("Les rendez-vous doivent commencer à l'heure pile ou à la demi-heure (ex: 14:00 ou 14:30).");
+        }
+
         Client client = clientRepository.findById(request.clientId())
                 .orElseThrow(() -> new EntityNotFoundException("Cliente introuvable."));
 
         Prestation prestation = prestationRepository.findById(request.prestationId())
                 .orElseThrow(() -> new EntityNotFoundException("Prestation introuvable."));
+
+        LocalDateTime calculatedDateEnd = request.dateStart().plusMinutes(prestation.getTime());
 
         WorkingDay requestDay = WorkingDay.fromJavaDayOfWeek(request.dateStart().getDayOfWeek());
         WorkingHour workingHour = workingHourRepository.findByDay(requestDay)
@@ -66,22 +81,22 @@ public class MeetService {
 
         if (workingHour.getIsClosed() ||
                 request.dateStart().toLocalTime().isBefore(workingHour.getStartTime()) ||
-                request.dateEnd().toLocalTime().isAfter(workingHour.getEndTime())) {
+                calculatedDateEnd.toLocalTime().isAfter(workingHour.getEndTime())) {
             throw new IllegalArgumentException("Le salon est fermé sur ce créneau horaire.");
         }
 
-        if (meetRepository.hasOverlap(request.dateStart(), request.dateEnd())) {
+        if (meetRepository.hasOverlap(request.dateStart(), calculatedDateEnd)) {
             throw new IllegalArgumentException("Ce créneau est déjà réservé par une autre cliente.");
         }
 
-        if (blockedSlotRepository.hasOverlap(request.dateStart(), request.dateEnd())) {
-             throw new IllegalArgumentException("Le salon est indisponible à ces dates.");
-         }
+        if (blockedSlotRepository.hasOverlap(request.dateStart(), calculatedDateEnd)) {
+            throw new IllegalArgumentException("Le salon est indisponible à ces dates.");
+        }
 
         Meet meet = meetMapper.toEntity(request);
-
         meet.setClient(client);
         meet.setPrestation(prestation);
+        meet.setDateEnd(calculatedDateEnd);
 
         Meet savedMeet = meetRepository.save(meet);
 
