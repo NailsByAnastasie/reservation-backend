@@ -3,6 +3,7 @@ package nails.yona.dto.request;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import nails.yona.enums.PrestationCategory;
 
 public record PrestationRequest(
         @NotBlank(message = "Le nom de la prestation est obligatoire.")
@@ -19,5 +20,8 @@ public record PrestationRequest(
         String description,
 
         @NotNull(message = "Le statut d'activation (active/inactive) est obligatoire.")
-        Boolean active
+        Boolean active,
+
+        @NotNull(message = "Vous devez choisir une catégorie.")
+        PrestationCategory prestationCategory
 ) {}

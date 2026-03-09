@@ -3,6 +3,7 @@ package nails.yona.service;
 import lombok.RequiredArgsConstructor;
 import nails.yona.dto.request.PrestationRequest;
 import nails.yona.dto.response.PrestationResponse;
+import nails.yona.dto.response.PublicPrestationResponse;
 import nails.yona.mapper.PrestationMapper;
 import nails.yona.model.Prestation;
 import nails.yona.repository.MeetRepository;
@@ -53,5 +54,18 @@ public class PrestationService {
         meetRepository.unlinkPrestation(id);
 
         prestationRepository.deleteById(id);
+    }
+
+    @Transactional(readOnly = true)
+    public List<PublicPrestationResponse> getPublicTarifs() {
+        return prestationRepository.findByActiveTrueOrderByPrestationCategoryAscPriceAsc()
+                .stream()
+                .map(prestation -> new PublicPrestationResponse(
+                        prestation.getId(),
+                        prestation.getName(),
+                        prestation.getPrice(),
+                        prestation.getPrestationCategory()
+                ))
+                .toList();
     }
 }

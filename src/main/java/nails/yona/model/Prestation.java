@@ -5,6 +5,7 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
+import nails.yona.enums.PrestationCategory;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -44,6 +45,11 @@ public class Prestation {
     @NotNull
     @Column(nullable = false)
     private Boolean active;
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    PrestationCategory prestationCategory;
 
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
