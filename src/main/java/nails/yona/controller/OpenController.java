@@ -3,6 +3,7 @@ package nails.yona.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import nails.yona.dto.response.CategoryTarifResponse;
 import nails.yona.dto.response.PublicPrestationResponse;
 import nails.yona.service.AvailabilityService;
 import nails.yona.service.PrestationService;
@@ -30,7 +31,7 @@ public class OpenController {
 
     @Operation(operationId = "getPublicTarifs")
     @GetMapping("/tarifs")
-    public List<PublicPrestationResponse> getPublicTarifs() {
+    public List<CategoryTarifResponse> getPublicTarifs() {
         return prestationService.getPublicTarifs();
     }
 }

@@ -10,5 +10,5 @@ import java.util.UUID;
 @Repository
 public interface PrestationRepository extends JpaRepository<Prestation, UUID> {
 
-    List<Prestation> findByActiveTrueOrderByPrestationCategoryAscPriceAsc();
+    List<Prestation> findByActiveTrueOrderByPriceAsc();
 }

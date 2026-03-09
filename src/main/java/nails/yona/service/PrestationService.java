@@ -2,8 +2,10 @@ package nails.yona.service;
 
 import lombok.RequiredArgsConstructor;
 import nails.yona.dto.request.PrestationRequest;
+import nails.yona.dto.response.CategoryTarifResponse;
 import nails.yona.dto.response.PrestationResponse;
 import nails.yona.dto.response.PublicPrestationResponse;
+import nails.yona.enums.PrestationCategory;
 import nails.yona.mapper.PrestationMapper;
 import nails.yona.model.Prestation;
 import nails.yona.repository.MeetRepository;
@@ -57,15 +59,35 @@ public class PrestationService {
     }
 
     @Transactional(readOnly = true)
-    public List<PublicPrestationResponse> getPublicTarifs() {
-        return prestationRepository.findByActiveTrueOrderByPrestationCategoryAscPriceAsc()
-                .stream()
-                .map(prestation -> new PublicPrestationResponse(
-                        prestation.getId(),
-                        prestation.getName(),
-                        prestation.getPrice(),
-                        prestation.getPrestationCategory()
-                ))
+    public List<CategoryTarifResponse> getPublicTarifs() {
+
+        List<Prestation> allActive = prestationRepository.findByActiveTrueOrderByPriceAsc();
+
+        List<PrestationCategory> expectedOrder = List.of(
+                PrestationCategory.HAND,
+                PrestationCategory.FOOT,
+                PrestationCategory.EYE
+        );
+
+        return expectedOrder.stream()
+                .map(category -> {
+                    List<PublicPrestationResponse> itemsForCategory = allActive.stream()
+                            .filter(p -> p.getPrestationCategory() == category)
+                            .map(p -> new PublicPrestationResponse(
+                                    p.getId(),
+                                    p.getName(),
+                                    p.getPrice(),
+                                    p.getPrestationCategory()
+                            ))
+                            .toList();
+
+                    return new CategoryTarifResponse(
+                            category.name(),
+                            category.getLabel(),
+                            itemsForCategory
+                    );
+                })
+                .filter(group -> !group.items().isEmpty())
                 .toList();
     }
 }
