@@ -6,6 +6,7 @@ import jakarta.persistence.EntityNotFoundException;
 import nails.yona.dto.ApiErrorDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -58,8 +59,21 @@ public class GlobalExceptionHandler {
         return new ApiErrorDto(
                 LocalDateTime.now(),
                 HttpStatus.NOT_FOUND.value(),
-                "Ressource introuvable",
+                "Ressource introuvable.",
                 ex.getMessage(),
+                null
+        );
+    }
+
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @ExceptionHandler(AccessDeniedException.class)
+    @ApiResponse(content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE))
+    public ApiErrorDto handleAccessDeniedException(AccessDeniedException ex) {
+        return new ApiErrorDto(
+                LocalDateTime.now(),
+                HttpStatus.FORBIDDEN.value(),
+                "Accès Refusé",
+                "Votre session a expiré ou vous n'avez pas les droits nécessaires. Veuillez vous reconnecter.",
                 null
         );
     }
