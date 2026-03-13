@@ -10,6 +10,8 @@ import nails.yona.repository.BlockedSlotRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -22,7 +24,13 @@ public class BlockedSlotService {
 
     @Transactional(readOnly = true)
     public List<BlockedSlotResponse> getAllBlockedSlots() {
+        LocalDateTime start = LocalDate.now().atStartOfDay();
+        LocalDateTime end = LocalDate.now().plusMonths(4).atTime(23, 59, 59);
+
         return blockedSlotMapper.toResponseList(blockedSlotRepository.findAll());
+
+        // TODO
+        // return pour les today + 4 mois ?
     }
 
     @Transactional
@@ -34,6 +42,9 @@ public class BlockedSlotService {
 
         BlockedSlot blockedSlot = blockedSlotMapper.toEntity(request);
         BlockedSlot savedSlot = blockedSlotRepository.save(blockedSlot);
+
+        // TODO
+        // en meme temps supprimer toutes les anciennes indisponibilité à partir de todays
 
         return blockedSlotMapper.toResponse(savedSlot);
     }
