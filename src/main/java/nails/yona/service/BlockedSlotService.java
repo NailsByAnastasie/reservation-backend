@@ -54,6 +54,10 @@ public class BlockedSlotService {
             throw new IllegalArgumentException("Une absence ou un chevauchement existe déjà sur cette période.");
         }
 
+        // TODO, si rendez vous deja prevu dans la periode d'abscence, d'abord l'anuler
+        // donc if meet status = pending or valid dans la periode return error
+        // meet repository, meet enum, meet entity
+
         BlockedSlot blockedSlot = blockedSlotMapper.toEntity(request);
         BlockedSlot savedSlot = blockedSlotRepository.save(blockedSlot);
 
