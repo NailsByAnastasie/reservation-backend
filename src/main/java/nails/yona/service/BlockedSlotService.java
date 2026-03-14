@@ -25,7 +25,7 @@ public class BlockedSlotService {
     @Transactional(readOnly = true)
     public List<BlockedSlotResponse> getAllBlockedSlots() {
         LocalDateTime start = LocalDate.now().atStartOfDay();
-        LocalDateTime end = LocalDate.now().plusMonths(4).atTime(23, 59, 59);
+        LocalDateTime end = LocalDate.now().plusMonths(6 ).atTime(23, 59, 59);
 
         List<BlockedSlot> slots = blockedSlotRepository.findSlotsBetweenDates(start, end);
 
@@ -35,14 +35,29 @@ public class BlockedSlotService {
     @Transactional
     public BlockedSlotResponse createBlockedSlot(BlockedSlotRequest request) {
 
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime maxDate = now.plusMonths(6);
+
         if (request.dateStart().isAfter(request.dateEnd())) {
             throw new IllegalArgumentException("La date de début doit être antérieure à la date de fin.");
+        }
+
+        if (request.dateStart().isBefore(now)) {
+            throw new IllegalArgumentException("Impossible de créer une absence dans le passé.");
+        }
+
+        if (request.dateEnd().isAfter(maxDate)) {
+            throw new IllegalArgumentException("Vous ne pouvez pas bloquer une période au-delà des 6 prochains mois.");
+        }
+
+        if (blockedSlotRepository.hasOverlap(request.dateStart(), request.dateEnd())) {
+            throw new IllegalArgumentException("Une absence ou un chevauchement existe déjà sur cette période.");
         }
 
         BlockedSlot blockedSlot = blockedSlotMapper.toEntity(request);
         BlockedSlot savedSlot = blockedSlotRepository.save(blockedSlot);
 
-        blockedSlotRepository.deleteByDateEndBefore(LocalDateTime.now());
+         blockedSlotRepository.deleteByDateEndBefore(now);
 
         return blockedSlotMapper.toResponse(savedSlot);
     }
