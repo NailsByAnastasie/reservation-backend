@@ -27,10 +27,9 @@ public class BlockedSlotService {
         LocalDateTime start = LocalDate.now().atStartOfDay();
         LocalDateTime end = LocalDate.now().plusMonths(4).atTime(23, 59, 59);
 
-        return blockedSlotMapper.toResponseList(blockedSlotRepository.findAll());
+        List<BlockedSlot> slots = blockedSlotRepository.findSlotsBetweenDates(start, end);
 
-        // TODO
-        // return pour les today + 4 mois ?
+        return blockedSlotMapper.toResponseList(slots);
     }
 
     @Transactional
@@ -43,8 +42,7 @@ public class BlockedSlotService {
         BlockedSlot blockedSlot = blockedSlotMapper.toEntity(request);
         BlockedSlot savedSlot = blockedSlotRepository.save(blockedSlot);
 
-        // TODO
-        // en meme temps supprimer toutes les anciennes indisponibilité à partir de todays
+        blockedSlotRepository.deleteByDateEndBefore(LocalDateTime.now());
 
         return blockedSlotMapper.toResponse(savedSlot);
     }
