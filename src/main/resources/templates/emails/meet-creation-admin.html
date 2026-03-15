@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nouveau rendez-vous</title>
+    <style>
+        body { font-family: 'Helvetica Neue', Arial, sans-serif; background-color: #f9f9f9; padding: 20px; color: #333; }
+        .container { background-color: #ffffff; padding: 30px; border-radius: 12px; max-width: 600px; margin: 0 auto; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        h1 { color: #d4a373; text-align: center; }
+        .details { background-color: #fefae0; padding: 15px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #d4a373;}
+        .footer { margin-top: 30px; text-align: center; font-size: 0.9em; color: #888; border-top: 1px solid #eee; padding-top: 20px; }
+        .action { color: #e63946; font-weight: bold; text-align: center; margin-top: 20px; font-size: 1.1em; background-color: #ffe5e5; padding: 10px; border-radius: 8px;}
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Nouvelle réservation ! 💅</h1>
+
+    <p>Coucou Anastasie,</p>
+    <p>Une cliente vient de prendre un nouveau rendez-vous sur ton site. Le créneau est bloqué, mais la cliente attend ta confirmation définitive.</p>
+
+    <div class="details">
+        <p>👤 <strong>Cliente :</strong> <span th:text="${clientName}">Nom Cliente</span></p>
+        <p>📱 <strong>Contact :</strong> <span th:text="${contactValue}">0600000000</span> (<span th:text="${contactType}">Téléphone</span>)</p>
+        <p>💅 <strong>Prestation :</strong> <span th:text="${prestationName}">Pose Complète</span></p>
+        <p>📅 <strong>Date :</strong> <span th:text="${meetDate}">20/01/2026</span></p>
+        <p>🕒 <strong>Heure :</strong> <span th:text="${meetTime}">14:00</span></p>
+    </div>
+
+    <p class="action">
+        ⚠️ Merci de te connecter à ton tableau de bord pour VALIDER ce rendez-vous au plus vite !
+    </p>
+
+    <div class="footer">
+        <p>Ton assistant virtuel 🤖</p>
+    </div>
+</div>
+</body>
+</html>

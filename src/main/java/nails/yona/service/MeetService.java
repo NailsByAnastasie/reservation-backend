@@ -101,6 +101,7 @@ public class MeetService {
         Meet savedMeet = meetRepository.save(meet);
 
         emailService.sendMeetConfirmation(savedMeet);
+        emailService.sendNewMeetNotificationToAdmin(savedMeet);
 
         return meetMapper.toResponse(savedMeet);
     }
