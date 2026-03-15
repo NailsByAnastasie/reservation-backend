@@ -45,7 +45,7 @@ public class EmailService {
             MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
 
-            helper.setFrom("contact@yona-nails.com");
+            helper.setFrom("noreply@nailsbyanastasie.fr");
             helper.setTo(meet.getClient().getEmail());
             helper.setSubject("💅 Confirmation de votre rendez-vous - Yona Nails");
             helper.setText(htmlContent, true);
@@ -71,7 +71,7 @@ public class EmailService {
             MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
 
-            helper.setFrom("contact@yona-nails.com");
+            helper.setFrom("noreply@nailsbyanastasie.fr");
             helper.setTo(meet.getClient().getEmail());
             helper.setSubject("❌ Annulation de votre rendez-vous - Yona Nails");
             helper.setText(htmlContent, true);
@@ -103,7 +103,7 @@ public class EmailService {
             MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
 
-            helper.setFrom("contact@yona-nails.com");
+            helper.setFrom("noreply@nailsbyanastasie.fr");
             helper.setTo(adminEmail);
             helper.setSubject("⚠️ Un rendez-vous a été annulé (" + meet.getClient().getFullName() + ")");
             helper.setText(htmlContent, true);
@@ -129,7 +129,7 @@ public class EmailService {
             MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
 
-            helper.setFrom("contact@yona-nails.com");
+            helper.setFrom("noreply@nailsbyanastasie.fr");
             helper.setTo(meet.getClient().getEmail());
             helper.setSubject("✅ Votre rendez-vous est validé ! - Yona Nails");
             helper.setText(htmlContent, true);
