@@ -3,7 +3,9 @@ package nails.yona.service;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
+import nails.yona.model.AdminUser;
 import nails.yona.model.Meet;
+import nails.yona.repository.AdminUserRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -19,14 +21,11 @@ import java.time.format.DateTimeFormatter;
 public class EmailService {
 
     private final JavaMailSender mailSender;
-    private final TemplateEngine templateEngine; // 🔥 Ajout de Thymeleaf
+    private final TemplateEngine templateEngine;
+    private final AdminUserRepository adminUserRepository;
 
     @Value("${app.frontend.url}")
     private String frontendUrl;
-
-    @Value("${app.admin.default.email}")
-    private String adminEmail;
-    // TODO prendre l'email actuel de la PO
 
     private final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     private final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
@@ -86,6 +85,11 @@ public class EmailService {
     @Async
     public void sendMeetCancellationToAdmin(Meet meet) {
         try {
+            String adminEmail = adminUserRepository.findAll().stream()
+                    .findFirst()
+                    .map(AdminUser::getEmail)
+                    .orElse("no-reply@yona-nails.com");
+
             Context context = new Context();
             context.setVariable("clientName", meet.getClient().getFullName());
             context.setVariable("prestationName", meet.getPrestation().getName());

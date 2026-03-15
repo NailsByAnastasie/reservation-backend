@@ -15,9 +15,7 @@ JWT_SECRET=niceToken
 
 envoie email, prendre le current email admin et pas le admin set en dur au start de l'app  
 
-nouvelle route validate, update le status du meet et send email  
-
-cancel meet, pour securiser la route pour pas que n'importe qui puisse annuler le rendez vous  
+nouvelle route validate, update le status du meet et send email
 
 connect au vrai serveur smtp ovh  
 
