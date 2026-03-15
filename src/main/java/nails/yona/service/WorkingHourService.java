@@ -10,6 +10,8 @@ import nails.yona.repository.WorkingHourRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalTime;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,7 +24,24 @@ public class WorkingHourService {
 
     @Transactional(readOnly = true)
     public List<WorkingHourResponse> getAllWorkingHours() {
-        return workingHourMapper.toResponseList(workingHourRepository.findAll());
+        List<WorkingHour> existingHours = workingHourRepository.findAll();
+
+        return Arrays.stream(WorkingDay.values())
+                .map(day -> {
+                    Optional<WorkingHour> foundHour = existingHours.stream()
+                            .filter(wh -> wh.getDay() == day)
+                            .findFirst();
+                    return foundHour
+                            .map(workingHourMapper::toResponse)
+                            .orElseGet(() -> new WorkingHourResponse(
+                                    null,
+                                    day,
+                                    LocalTime.of(9, 0),
+                                    LocalTime.of(18, 0),
+                                    day == WorkingDay.DIMANCHE
+                            ));
+                })
+                .toList();
     }
 
     @Transactional
