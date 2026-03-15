@@ -13,7 +13,8 @@ import java.util.UUID;
 
 @Repository
 public interface MeetRepository extends JpaRepository<Meet, UUID> {
-    @Query("SELECT COUNT(m) > 0 FROM Meet m WHERE m.status != 'CANCELLED' AND m.dateStart < :end AND m.dateEnd > :start")
+
+    @Query("SELECT COUNT(m) > 0 FROM Meet m WHERE m.status != 'CANCELED' AND m.dateStart < :end AND m.dateEnd > :start")
     boolean hasOverlap(@Param("start") LocalDateTime start, @Param("end") LocalDateTime end);
 
     @Modifying

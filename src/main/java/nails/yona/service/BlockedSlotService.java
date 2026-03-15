@@ -7,6 +7,7 @@ import nails.yona.dto.response.BlockedSlotResponse;
 import nails.yona.mapper.BlockedSlotMapper;
 import nails.yona.model.BlockedSlot;
 import nails.yona.repository.BlockedSlotRepository;
+import nails.yona.repository.MeetRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +22,7 @@ public class BlockedSlotService {
 
     private final BlockedSlotRepository blockedSlotRepository;
     private final BlockedSlotMapper blockedSlotMapper;
+    private final MeetRepository meetRepository;
 
     @Transactional(readOnly = true)
     public List<BlockedSlotResponse> getAllBlockedSlots() {
@@ -54,9 +56,9 @@ public class BlockedSlotService {
             throw new IllegalArgumentException("Une absence ou un chevauchement existe déjà sur cette période.");
         }
 
-        // TODO, si rendez vous deja prevu dans la periode d'abscence, d'abord l'anuler
-        // donc if meet status = pending or valid dans la periode return error
-        // meet repository, meet enum, meet entity
+        if (meetRepository.hasOverlap(request.dateStart(), request.dateEnd())) {
+            throw new IllegalArgumentException("Impossible de bloquer cette période : un ou plusieurs rendez-vous sont déjà prévus. Veuillez d'abord les annuler.");
+        }
 
         BlockedSlot blockedSlot = blockedSlotMapper.toEntity(request);
         BlockedSlot savedSlot = blockedSlotRepository.save(blockedSlot);
