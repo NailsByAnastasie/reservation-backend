@@ -13,10 +13,6 @@ FRONTEND_URL=http://localhost:4200;
 JWT_EXPIRATION=259200000;  
 JWT_SECRET=niceToken
 
-envoie email, prendre le current email admin et pas le admin set en dur au start de l'app  
-
-nouvelle route validate, update le status du meet et send email
-
 connect au vrai serveur smtp ovh  
 
 mettre en place de la migration de database (liquidbase)  
