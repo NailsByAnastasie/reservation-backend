@@ -45,6 +45,7 @@ public class MeetController {
 
     @Operation(operationId = "cancelMeet")
     @PatchMapping("/{id}/cancel")
+    // TODO securiser cette route pour pas que n'importe qui puisse annuler
     public MeetResponse cancelMeet(@PathVariable UUID id) {
         return meetService.cancelMeet(id);
     }
