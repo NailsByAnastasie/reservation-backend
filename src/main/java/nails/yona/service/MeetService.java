@@ -136,4 +136,26 @@ public class MeetService {
 
         return meetMapper.toResponse(savedMeet);
     }
+
+    @Transactional
+    public MeetResponse validateMeet(UUID id) {
+        Meet meet = meetRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Rendez-vous introuvable."));
+
+        if (meet.getStatus() == MeetStatus.CONFIRMED) {
+            throw new IllegalArgumentException("Ce rendez-vous est déjà validé.");
+        }
+
+        if (meet.getStatus() == MeetStatus.CANCELED) {
+            throw new IllegalArgumentException("Impossible de valider un rendez-vous annulé.");
+        }
+
+        meet.setStatus(MeetStatus.CONFIRMED);
+
+        Meet savedMeet = meetRepository.save(meet);
+
+        emailService.sendMeetValidationToClient(savedMeet);
+
+        return meetMapper.toResponse(savedMeet);
+    }
 }

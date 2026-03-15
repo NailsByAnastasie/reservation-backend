@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Validation de votre rendez-vous</title>
+    <style>
+        body { font-family: 'Helvetica Neue', Arial, sans-serif; background-color: #f9f9f9; padding: 20px; color: #333; }
+        .container { background-color: #ffffff; padding: 30px; border-radius: 12px; max-width: 600px; margin: 0 auto; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        h1 { color: #2a9d8f; text-align: center; } /* Vert de validation */
+        .details { background-color: #f1faee; padding: 15px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #2a9d8f;}
+        .footer { margin-top: 30px; text-align: center; font-size: 0.9em; color: #888; border-top: 1px solid #eee; padding-top: 20px; }
+        .btn-cancel {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 24px;
+            background-color: #ffe5e5;
+            color: #d90429;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            border: 1px solid #ffb3b3;
+            text-align: center;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .btn-cancel:hover { background-color: #ffcccc; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Bonne nouvelle <span th:text="${clientName}">Cliente</span> ! ✅</h1>
+
+    <p>Je te confirme que ton rendez-vous chez <strong>Yona Nails</strong> est définitivement <strong>validé</strong>. J'ai hâte de te sublimer les mains !</p>
+
+    <div class="details">
+        <p>💅 <strong>Prestation :</strong> <span th:text="${prestationName}">Pose Complète</span></p>
+        <p>📅 <strong>Date :</strong> <span th:text="${meetDate}">20/01/2026</span></p>
+        <p>🕒 <strong>Heure :</strong> <span th:text="${meetTime}">14:00</span></p>
+    </div>
+
+    <p>📍 <strong>Rappel de l'adresse :</strong> (Ajoute l'adresse du salon ici)</p>
+
+    <p>⚠️ En cas d'imprévu, tu peux annuler ton rendez-vous directement en cliquant sur le bouton ci-dessous, ou me prévenir via Instagram (@Yonanails).</p>
+
+    <a th:href="${cancelLink}" class="btn-cancel">Annuler mon rendez-vous</a>
+
+    <div class="footer">
+        <p>À très vite ! 🌺<br>Nails by Anastasie</p>
+    </div>
+</div>
+</body>
+</html>

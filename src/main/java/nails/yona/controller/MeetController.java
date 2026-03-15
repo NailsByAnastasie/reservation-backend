@@ -45,7 +45,6 @@ public class MeetController {
 
     @Operation(operationId = "cancelMeet")
     @PatchMapping("/{id}/cancel")
-    // TODO securiser cette route pour pas que n'importe qui puisse annuler
     public MeetResponse cancelMeet(@PathVariable UUID id) {
         return meetService.cancelMeet(id);
     }
@@ -54,5 +53,11 @@ public class MeetController {
     @GetMapping("/upcoming")
     public List<MeetResponse> getUpcomingMeets() {
         return meetService.getUpcomingMeets();
+    }
+
+    @Operation(operationId = "validateMeet")
+    @PatchMapping("/{id}/validate")
+    public MeetResponse validateMeet(@PathVariable UUID id) {
+        return meetService.validateMeet(id);
     }
 }
