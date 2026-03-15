@@ -26,10 +26,10 @@ public class WorkingHourController {
         return workingHourService.getAllWorkingHours();
     }
 
-    @Operation(operationId = "upsertWorkingHour")
+    @Operation(operationId = "upsertWorkingHours")
     @PutMapping("/updateOrCreate")
-    public WorkingHourResponse upsertWorkingHour(
-            @Valid @RequestBody WorkingHourRequest request) {
-        return workingHourService.upsertWorkingHour(request);
+    public List<WorkingHourResponse> upsertWorkingHours(
+            @Valid @RequestBody List<WorkingHourRequest> requests) {
+        return workingHourService.upsertWorkingHours(requests);
     }
 }

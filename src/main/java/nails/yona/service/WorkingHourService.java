@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -45,29 +46,34 @@ public class WorkingHourService {
     }
 
     @Transactional
-    public WorkingHourResponse upsertWorkingHour(WorkingHourRequest request) {
+    public List<WorkingHourResponse> upsertWorkingHours(List<WorkingHourRequest> requests) {
 
-        if (!request.isClosed() && (request.startTime() == null || request.endTime() == null)) {
-            throw new IllegalArgumentException("Si le salon est ouvert, les heures de début et de fin sont obligatoires.");
+        List<WorkingHour> hoursToSave = new ArrayList<>();
+
+        for (WorkingHourRequest request : requests) {
+            if (!request.isClosed() && (request.startTime() == null || request.endTime() == null)) {
+                throw new IllegalArgumentException("Si le salon est ouvert le " + request.day() + ", les heures de début et de fin sont obligatoires.");
+            }
+
+            if (request.startTime() != null && request.endTime() != null && request.startTime().isAfter(request.endTime())) {
+                throw new IllegalArgumentException("L'heure de début doit être avant l'heure de fin pour le " + request.day() + ".");
+            }
+
+            Optional<WorkingHour> existing = workingHourRepository.findByDay(request.day());
+            WorkingHour workingHour;
+
+            if (existing.isPresent()) {
+                workingHour = existing.get();
+                workingHourMapper.updateEntity(request, workingHour);
+            } else {
+                workingHour = workingHourMapper.toEntity(request);
+            }
+
+            workingHour.setDay(request.day());
+            hoursToSave.add(workingHour);
         }
 
-        if (request.startTime() != null && request.endTime() != null && request.startTime().isAfter(request.endTime())) {
-            throw new IllegalArgumentException("L'heure de début doit être avant l'heure de fin.");
-        }
-
-        Optional<WorkingHour> existing = workingHourRepository.findByDay(request.day());
-        WorkingHour workingHour;
-
-        if (existing.isPresent()) {
-            workingHour = existing.get();
-            workingHourMapper.updateEntity(request, workingHour);
-        } else {
-            workingHour = workingHourMapper.toEntity(request);
-        }
-
-        workingHour.setDay(request.day());
-
-        WorkingHour saved = workingHourRepository.save(workingHour);
-        return workingHourMapper.toResponse(saved);
+        List<WorkingHour> saved = workingHourRepository.saveAll(hoursToSave);
+        return workingHourMapper.toResponseList(saved);
     }
 }
