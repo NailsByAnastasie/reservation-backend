@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import nails.yona.enums.PrestationCategory;
 import org.hibernate.annotations.CreationTimestamp;
@@ -40,6 +41,7 @@ public class Prestation {
     private Integer time;
 
     @Column(columnDefinition = "TEXT")
+    @Size(max = 2000)
     private String description;
 
     @NotNull

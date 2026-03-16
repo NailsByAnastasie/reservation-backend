@@ -3,6 +3,7 @@ package nails.yona.dto.request;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import nails.yona.enums.PrestationCategory;
 
 public record PrestationRequest(
@@ -17,6 +18,7 @@ public record PrestationRequest(
         @Min(value = 1, message = "La durée doit être d'au moins 1 minute.")
         Integer time,
 
+        @Size(max = 2000, message = "La note ne doit pas dépasser 2000 caractères.")
         String description,
 
         @NotNull(message = "Le statut d'activation (active/inactive) est obligatoire.")
