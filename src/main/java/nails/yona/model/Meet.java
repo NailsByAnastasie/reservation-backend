@@ -1,10 +1,7 @@
 package nails.yona.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.*;
 import lombok.*;
 import nails.yona.enums.MeetStatus;
 import org.hibernate.annotations.CreationTimestamp;
@@ -41,6 +38,7 @@ public class Meet {
     private MeetStatus status = MeetStatus.PENDING;
 
     @Column(columnDefinition = "TEXT")
+    @Size(max = 1000)
     private String note;
 
     @NotNull

@@ -3,6 +3,7 @@ package nails.yona.dto.request;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import nails.yona.enums.MeetStatus;
 
 import java.time.LocalDateTime;
@@ -15,6 +16,7 @@ public record MeetRequest(
         @NotNull(message = "La prestation est obligatoire pour créer un rendez-vous.")
         UUID prestationId,
 
+        @Size(max = 1000, message = "La note ne doit pas dépasser 1000 caractères.")
         String note,
 
         @NotNull(message = "La date et l'heure de début sont obligatoires.")
