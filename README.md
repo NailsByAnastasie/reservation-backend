@@ -13,6 +13,4 @@ FRONTEND_URL=http://localhost:4200;
 JWT_EXPIRATION=259200000;  
 JWT_SECRET=niceToken
 
-connect au vrai serveur smtp ovh  
-
 mettre en place de la migration de database (liquidbase)  
