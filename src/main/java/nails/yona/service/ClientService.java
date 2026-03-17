@@ -8,6 +8,8 @@ import nails.yona.mapper.ClientMapper;
 import nails.yona.model.Client;
 import nails.yona.repository.ClientRepository;
 import nails.yona.repository.MeetRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -60,5 +62,10 @@ public class ClientService {
         meetRepository.unlinkClient(id);
 
         clientRepository.deleteById(id);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<ClientResponse> getAllClients(Pageable pageable) {
+        return clientRepository.findAll(pageable).map(clientMapper::toResponse);
     }
 }

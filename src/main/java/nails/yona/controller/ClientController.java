@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import nails.yona.dto.request.ClientRequest;
 import nails.yona.dto.response.ClientResponse;
 import nails.yona.service.ClientService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -46,5 +48,11 @@ public class ClientController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteClient(@PathVariable UUID id) {
         clientService.deleteClient(id);
+    }
+
+    @Operation(operationId = "getAllClients")
+    @GetMapping
+    public Page<ClientResponse> getAllClients(Pageable pageable) {
+        return clientService.getAllClients(pageable);
     }
 }
