@@ -59,4 +59,6 @@ public class ClientController {
     ) {
         return clientService.getAllClients(pageable);
     }
+
+    // TODO get client by id et return toutes les infos du client en question
 }

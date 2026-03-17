@@ -25,6 +25,6 @@ public interface MeetRepository extends JpaRepository<Meet, UUID> {
     @Query("UPDATE Meet m SET m.client = null WHERE m.client.id = :clientId")
     void unlinkClient(@Param("clientId") UUID clientId);
 
-    @Query("SELECT m FROM Meet m WHERE m.status != 'CANCELED' AND m.dateStart >= :start AND m.dateStart <= :end ORDER BY m.dateStart ASC")
+    @Query("SELECT m FROM Meet m WHERE m.dateStart >= :start AND m.dateStart <= :end ORDER BY m.dateStart ASC")
     List<Meet> findMeetsBetween(@Param("start") LocalDateTime start, @Param("end") LocalDateTime end);
 }
