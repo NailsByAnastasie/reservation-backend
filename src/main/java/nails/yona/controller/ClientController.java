@@ -14,6 +14,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -24,10 +25,10 @@ public class ClientController {
 
     private final ClientService clientService;
 
-    @Operation(operationId = "getClientByEmail")
+    @Operation(operationId = "searchClientsByEmail")
     @GetMapping("/search")
-    public ClientResponse getClientByEmail(@RequestParam String email) {
-        return clientService.findByEmail(email);
+    public List<ClientResponse> searchClientsByEmail(@RequestParam String email) {
+        return clientService.searchByEmail(email);
     }
 
     @Operation(operationId = "createClient")
@@ -59,6 +60,4 @@ public class ClientController {
     ) {
         return clientService.getAllClients(pageable);
     }
-
-    // TODO get client by id et return toutes les infos du client en question
 }

@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -24,10 +25,11 @@ public class ClientService {
     private final MeetRepository meetRepository;
 
     @Transactional(readOnly = true)
-    public ClientResponse findByEmail(String email) {
-        return clientRepository.findByEmailIgnoreCase(email)
+    public List<ClientResponse> searchByEmail(String email) {
+        return clientRepository.findByEmailContainingIgnoreCase(email)
+                .stream()
                 .map(clientMapper::toResponse)
-                .orElseThrow(() -> new EntityNotFoundException("Client introuvable."));
+                .toList();
     }
 
     @Transactional
