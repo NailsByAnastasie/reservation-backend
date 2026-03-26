@@ -52,8 +52,6 @@ public class SecurityConfig {
 
                         .requestMatchers(HttpMethod.GET, "/api/open/**").permitAll()
 
-                        .requestMatchers(HttpMethod.GET, "/api/clients/search").permitAll()
-
                         .requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
                         .requestMatchers("/v3/api-docs/**").permitAll()
 

@@ -34,4 +34,6 @@ public class OpenController {
     public List<CategoryTarifResponse> getPublicTarifs() {
         return prestationService.getPublicTarifs();
     }
+
+    // TODO faire un route get client by email mais ne return que ID et email si trouvé
 }
