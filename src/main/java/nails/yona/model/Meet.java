@@ -1,8 +1,7 @@
 package nails.yona.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.*;
 import lombok.*;
 import nails.yona.enums.MeetStatus;
 import org.hibernate.annotations.CreationTimestamp;
@@ -24,36 +23,41 @@ public class Meet {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @NotNull(message = "Le client est obligatoire")
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "client_id", nullable = false)
+    @JoinColumn(name = "client_id")
     private Client client;
 
-    @NotNull(message = "La prestation est obligatoire")
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "prestation_id", nullable = false)
+    @JoinColumn(name = "prestation_id")
     private Prestation prestation;
 
-    @NotNull(message = "Le statut est obligatoire")
+    @Builder.Default
+    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private MeetStatus status;
+    private MeetStatus status = MeetStatus.PENDING;
 
     @Column(columnDefinition = "TEXT")
+    @Size(max = 1000)
     private String note;
 
-    @NotNull(message = "La date de début est obligatoire")
+    @NotNull
     @Column(nullable = false)
     private LocalDateTime dateStart;
 
-    @NotNull(message = "La date de fin est obligatoire")
+    @NotNull
     @Column(nullable = false)
     private LocalDateTime dateEnd;
 
-    @NotNull(message = "Le prix final est obligatoire")
-    @Min(value = 0, message = "Le prix ne peut pas être négatif")
+    @NotNull
+    @Min(value = 0)
     @Column(nullable = false)
     private Integer finalPrice;
+
+    @NotBlank
+    @Email
+    @Column(nullable = false)
+    private String finalEmail;
 
     @CreationTimestamp
     @Column(nullable = false, updatable = false)

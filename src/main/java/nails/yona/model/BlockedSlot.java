@@ -23,15 +23,15 @@ public class BlockedSlot {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @NotNull(message = "La date de début est obligatoire")
+    @NotNull
     @Column(nullable = false)
     private LocalDateTime dateStart;
 
-    @NotNull(message = "La date de fin est obligatoire")
+    @NotNull
     @Column(nullable = false)
     private LocalDateTime dateEnd;
 
-    @NotBlank(message = "La raison est obligatoire")
+    @NotBlank
     @Column(nullable = false)
     private String reason;
 

@@ -24,11 +24,11 @@ public class Cost {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @NotBlank(message = "Le titre est obligatoire")
+    @NotBlank
     @Column(nullable = false)
     private String title;
 
-    @NotNull(message = "Le coût est obligatoire")
+    @NotNull
     @Min(value = 0)
     @Column(nullable = false)
     private Integer cost;

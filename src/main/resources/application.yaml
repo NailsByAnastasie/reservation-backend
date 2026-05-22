@@ -1,21 +1,52 @@
 spring:
   application:
     name: nails
-
   datasource:
     driver-class-name: org.postgresql.Driver
-
-  liquibase:
-    change-log: classpath:db/iterations.yaml
-    contexts: ${spring.profiles.active}
-
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
   output:
     ansi:
       enabled: ALWAYS
-
   jpa:
+    open-in-view: false
     hibernate:
       ddl-auto: update
+  jackson:
+    time-zone: Europe/Paris
+  mail:
+    host: ${EMAIL_HOST}
+    port: ${EMAIL_PORT}
+    username: ${EMAIL_LOGIN}
+    password: ${EMAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 
 server:
   port: 8080
+
+app:
+  frontend:
+    url: ${FRONTEND_URL}
+  admin:
+    default:
+      email: ${DEFAULT_EMAIL}
+      password: ${DEFAULT_PASSWORD}
+  jwt:
+    secret: ${JWT_SECRET}
+    expiration: ${JWT_EXPIRATION}
+
+logging:
+  level:
+    root: INFO
+
+springdoc:
+  swagger-ui:
+    enabled: false
+  api-docs:
+    enabled: true

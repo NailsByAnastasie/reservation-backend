@@ -24,7 +24,7 @@ public class WorkingHour {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @NotNull(message = "Le jour est obligatoire")
+    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private WorkingDay day;
@@ -32,7 +32,7 @@ public class WorkingHour {
     private LocalTime startTime;
     private LocalTime endTime;
 
-    @NotNull(message = "L'état d'ouverture est obligatoire")
+    @NotNull
     @Column(nullable = false)
     private Boolean isClosed;
 
